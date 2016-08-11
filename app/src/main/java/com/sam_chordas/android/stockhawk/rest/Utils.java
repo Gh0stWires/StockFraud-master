@@ -21,13 +21,13 @@ public class Utils {
 
   public static boolean showPercent = true;
 
-  public static ArrayList quoteJsonToContentVals(String JSON) {
+  public static ArrayList quoteJsonToContentVals(String JSON, String tag) {
     ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
     JSONObject jsonObject = null;
     JSONArray resultsArray = null;
     try {
       jsonObject = new JSONObject(JSON);
-      if (jsonObject != null && jsonObject.length() != 0) {
+      if (jsonObject != null && jsonObject.length() != 0 && tag == null) {
         jsonObject = jsonObject.getJSONObject("query");
         int count = Integer.parseInt(jsonObject.getString("count"));
         if (count == 1) {
@@ -44,6 +44,25 @@ public class Utils {
             }
           }
         }
+      }
+      if (jsonObject != null && jsonObject.length() != 0 && tag != null){
+        jsonObject = jsonObject.getJSONObject("query");
+        int count = Integer.parseInt(jsonObject.getString("count"));
+        if (count == 1) {
+          jsonObject = jsonObject.getJSONObject("results")
+                  .getJSONObject("quote");
+          batchOperations.add(buildBatchHistory(jsonObject));
+        } else {
+          resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
+
+          if (resultsArray != null && resultsArray.length() != 0) {
+            for (int i = 0; i < resultsArray.length(); i++) {
+              jsonObject = resultsArray.getJSONObject(i);
+              batchOperations.add(buildBatchHistory(jsonObject));
+            }
+          }
+        }
+
       }
     } catch (JSONException e) {
       Log.e(LOG_TAG, "String to JSON failed: " + e);
@@ -71,6 +90,20 @@ public class Utils {
     changeBuffer.append(ampersand);
     change = changeBuffer.toString();
     return change;
+  }
+
+  public static ContentProviderOperation buildBatchHistory(JSONObject jsonObject){
+    ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
+            QuoteProvider.Quotes.CONTENT_URI);
+
+    try {
+      builder.withValue(QuoteColumns.STARTPRICE, truncateBidPrice(jsonObject.getString("Open")));
+      builder.withValue(QuoteColumns.ENDPRICE, truncateBidPrice(jsonObject.getString("Close")));
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    return builder.build();
   }
 
   public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject) {

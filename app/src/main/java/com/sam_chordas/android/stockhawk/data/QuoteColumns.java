@@ -25,4 +25,8 @@ public class QuoteColumns {
   public static final String ISUP = "is_up";
   @DataType(DataType.Type.INTEGER) @NotNull
   public static final String ISCURRENT = "is_current";
+  @DataType(DataType.Type.TEXT)
+  public static final String ENDPRICE = "end_price";
+  @DataType(DataType.Type.TEXT)
+  public static final String STARTPRICE = "start_price";
 }

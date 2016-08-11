@@ -22,7 +22,10 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by sam_chordas on 9/30/15.
@@ -36,6 +39,8 @@ public class StockTaskService extends GcmTaskService {
     private Context mContext;
     private StringBuilder mStoredSymbols = new StringBuilder();
     private boolean isUpdate;
+    private Calendar calendar = Calendar.getInstance();
+    private String HIST_TAG = "history";
 
     public StockTaskService() {
     }
@@ -53,13 +58,26 @@ public class StockTaskService extends GcmTaskService {
         return response.body().string();
     }
 
+    public String getDate(Calendar cal, int val){
+        cal.add(Calendar.MONTH, val);
+        Date dateOne = cal.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String dateOutput = format.format(dateOne);
+        return dateOutput;
+    }
+
     @Override
     public int onRunTask(TaskParams params) {
         Cursor initQueryCursor;
         if (mContext == null) {
             mContext = this;
         }
+
+        String startDate = getDate(calendar, 0);
+        String endDate = getDate(calendar, -1);
+
         StringBuilder urlStringBuilder = new StringBuilder();
+
         try {
             // Base URL for the Yahoo query
             urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
@@ -113,7 +131,7 @@ public class StockTaskService extends GcmTaskService {
             String stockInput = params.getExtras().getString("symbol");
             System.out.println(stockInput);
             try {
-                urlStringBuilder.append(URLEncoder.encode("\"" + stockInput + "\"" + " and startDate = " + "\"2009-09-11\"" + " and endDate = " + "\"2010-03-10\"" ,"UTF-8"));
+                urlStringBuilder.append(URLEncoder.encode("\"" + stockInput + "\"" + " and startDate = " + "\""+ endDate + "\"" + " and endDate = " + "\""+ startDate +"\"" ,"UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -143,8 +161,13 @@ public class StockTaskService extends GcmTaskService {
                         mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
                                 null, null);
                     }
-                    Log.w("MESSAGE", String.valueOf(Utils.quoteJsonToContentVals(getResponse)));
-                    ArrayList<ContentProviderOperation> response = Utils.quoteJsonToContentVals(getResponse);
+                    //Log.w("MESSAGE", String.valueOf(Utils.quoteJsonToContentVals(getResponse)));
+                    ArrayList<ContentProviderOperation> response;
+                    if (params.getTag().equals("history")) {
+                        response = Utils.quoteJsonToContentVals(getResponse, HIST_TAG);
+                    }else{
+                        response = Utils.quoteJsonToContentVals(getResponse, null);
+                    }
                     System.out.println(response);
                     if (response != null && response.size() > 0) {
                         mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
