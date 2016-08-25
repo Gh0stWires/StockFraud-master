@@ -81,12 +81,10 @@ public class StockTaskService extends GcmTaskService {
         try {
             // Base URL for the Yahoo query
             urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
-            if (params.getTag().equals("history")){
-                urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.historicaldata where symbol = " , "UTF-8"));
-            }else {
-                urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.quotes where symbol "
+
+            urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.quotes where symbol "
                         + "in (", "UTF-8"));
-            }
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -162,13 +160,10 @@ public class StockTaskService extends GcmTaskService {
                                 null, null);
                     }
                     //Log.w("MESSAGE", String.valueOf(Utils.quoteJsonToContentVals(getResponse)));
-                    ArrayList<ContentProviderOperation> response;
-                    if (params.getTag().equals("history")) {
-                        response = Utils.quoteJsonToContentVals(getResponse, HIST_TAG);
-                    }else{
-                        response = Utils.quoteJsonToContentVals(getResponse, null);
-                    }
-                    System.out.println(response);
+                    ArrayList<ContentProviderOperation> response = null;
+
+                    response = Utils.quoteJsonToContentVals(getResponse, null);
+                    //System.out.println(response);
                     if (response != null && response.size() > 0) {
                         mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
                                 response);
