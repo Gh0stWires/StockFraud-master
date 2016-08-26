@@ -3,15 +3,19 @@ package com.sam_chordas.android.stockhawk.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.sam_chordas.android.stockhawk.R;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,8 +45,8 @@ public class DetailActivity extends Activity {
     public class HistrocalDataTask extends AsyncTask<String,Void,Void> {
 
         private OkHttpClient client = new OkHttpClient();
-        ArrayList<Float> closeNums = new ArrayList<>();
-        ArrayList<String> dateNums = new ArrayList<>();
+        ArrayList<Entry> closeNums = new ArrayList<>();
+        ArrayList<String> dateNums = new ArrayList<String>();
         private Context mContext;
         private Calendar calendar = Calendar.getInstance();
         DecimalFormat decimalFormat = new DecimalFormat("##.##");
@@ -125,7 +129,8 @@ public class DetailActivity extends Activity {
                                 if (resultsArray != null && resultsArray.length() != 0) {
                                     for (int i = 0; i < resultsArray.length(); i++) {
                                         jsonObject = resultsArray.getJSONObject(i);
-                                        closeNums.add(Float.valueOf(jsonObject.getString("Close")));
+                                        float val = Float.valueOf(jsonObject.getString("Close"));
+                                        closeNums.add(new Entry(i,val));
                                         dateNums.add(jsonObject.getString("Date"));
 
                                     }
@@ -148,13 +153,26 @@ public class DetailActivity extends Activity {
         @Override
         protected void onPostExecute (Void aVoid) {
             super.onPostExecute(aVoid);
-
-            float[] clPrice = new float[0];
-            for (int i = 0; i < closeNums.size(); i++) {
-                clPrice = ArrayUtils.toPrimitive(new Float[]{closeNums.get(i)});
-            }
+            LineChart chartView = (LineChart)findViewById(R.id.linechart);
             System.out.println(closeNums);
-            //LineChartView chartView = (LineChartView)findViewById(R.id.linechart);
+            System.out.println(dateNums);
+            LineDataSet closeSet = new LineDataSet(closeNums, "Price Over Time");
+
+            closeSet.enableDashedLine(10f, 5f, 0f);
+            closeSet.enableDashedHighlightLine(10f, 5f, 0f);
+            closeSet.setColor(Color.BLACK);
+            closeSet.setCircleColor(Color.BLACK);
+            closeSet.setLineWidth(1f);
+            closeSet.setCircleRadius(3f);
+            closeSet.setDrawCircleHole(false);
+            closeSet.setValueTextSize(9f);
+            closeSet.setDrawFilled(true);
+
+
+            
+            LineData data = new LineData(dateNums, closeSet);
+            chartView.setData(data);
+            System.out.println(closeSet);
 
         }
     }
