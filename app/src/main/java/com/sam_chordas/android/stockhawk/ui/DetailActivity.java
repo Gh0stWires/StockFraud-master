@@ -130,7 +130,7 @@ public class DetailActivity extends Activity {
                                     for (int i = 0; i < resultsArray.length(); i++) {
                                         jsonObject = resultsArray.getJSONObject(i);
                                         float val = Float.valueOf(jsonObject.getString("Close"));
-                                        closeNums.add(new Entry(i,val));
+                                        closeNums.add(new Entry(val,i));
                                         dateNums.add(jsonObject.getString("Date"));
 
                                     }
