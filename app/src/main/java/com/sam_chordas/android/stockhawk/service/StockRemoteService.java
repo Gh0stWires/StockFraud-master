@@ -21,7 +21,8 @@ public class StockRemoteService extends RemoteViewsService {
 
 
         return new RemoteViewsFactory() {
-            final ArrayList<String> stocks = new ArrayList<String>();
+            ArrayList<String> bumble = new ArrayList<>();
+            //Cursor stocks = bumble;
             @Override
             public void onCreate() {
 
@@ -29,12 +30,12 @@ public class StockRemoteService extends RemoteViewsService {
 
             @Override
             public void onDataSetChanged() {
-                stocks.add("FUCK");
-                stocks.add("You");
-                stocks.add("FUCK");
-                stocks.add("You");
-                stocks.add("FUCK");
-                stocks.add("You");
+                bumble.add("FUCK");
+                bumble.add("You");
+                bumble.add("FUCK");
+                bumble.add("You");
+                bumble.add("FUCK");
+                bumble.add("You");
 
             }
 
@@ -50,16 +51,18 @@ public class StockRemoteService extends RemoteViewsService {
 
             @Override
             public RemoteViews getViewAt(int position) {
-                RemoteViews views = new RemoteViews(getPackageName(),R.layout.list_item_quote);
+                RemoteViews views = new RemoteViews(getPackageName(),R.layout.layout);
 
-                views.setTextViewText(R.id.stock_symbol, (CharSequence) stocks);
+                for (int i = 0; i < bumble.size(); i++) {
+                    views.setTextViewText(R.id.stock_symbol, bumble.get(i));
+                }
 
                 return views;
             }
 
             @Override
             public RemoteViews getLoadingView() {
-                return new RemoteViews(getPackageName(), R.layout.list_item_quote);
+                return new RemoteViews(getPackageName(), R.layout.layout);
             }
 
             @Override
