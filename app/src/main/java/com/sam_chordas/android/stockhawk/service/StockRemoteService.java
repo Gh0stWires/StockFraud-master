@@ -46,12 +46,12 @@ public class StockRemoteService extends RemoteViewsService {
 
             @Override
             public int getCount() {
-                return 0;
+                return bumble.size();
             }
 
             @Override
             public RemoteViews getViewAt(int position) {
-                RemoteViews views = new RemoteViews(getPackageName(),R.layout.layout);
+                RemoteViews views = new RemoteViews(getPackageName(),R.layout.test);
 
                 for (int i = 0; i < bumble.size(); i++) {
                     views.setTextViewText(R.id.stock_symbol, bumble.get(i));
@@ -62,7 +62,7 @@ public class StockRemoteService extends RemoteViewsService {
 
             @Override
             public RemoteViews getLoadingView() {
-                return new RemoteViews(getPackageName(), R.layout.layout);
+                return null;
             }
 
             @Override
@@ -72,7 +72,7 @@ public class StockRemoteService extends RemoteViewsService {
 
             @Override
             public long getItemId(int position) {
-                return 0;
+                return position;
             }
 
             @Override
