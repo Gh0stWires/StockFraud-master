@@ -1,6 +1,5 @@
 package com.sam_chordas.android.stockhawk.ui;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -33,9 +32,8 @@ public class StockFraudWidget extends AppWidgetProvider {
 
             setRemoteAdapter(context,views);
             Intent intent = new Intent(context, StockRemoteService.class);
-            PendingIntent pendingIntent =  PendingIntent.getActivity(context, 0, intent, 0);
-            views.setOnClickPendingIntent(R.id.widget_list, pendingIntent);
-            views.setEmptyView(R.id.widget_list, R.id.widget_empty);
+            //PendingIntent pendingIntent =  PendingIntent.getActivity(context, 0, intent, 0);
+            context.startService(intent);
 
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
