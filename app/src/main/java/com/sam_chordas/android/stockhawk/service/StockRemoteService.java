@@ -26,6 +26,12 @@ public class StockRemoteService extends RemoteViewsService {
             //Cursor stocks = bumble;
             @Override
             public void onCreate() {
+                bumble.add("FUCK");
+                bumble.add("You");
+                bumble.add("FUCK");
+                bumble.add("You");
+                bumble.add("FUCK");
+                bumble.add("You");
 
             }
 
@@ -47,13 +53,8 @@ public class StockRemoteService extends RemoteViewsService {
 
             @Override
             public RemoteViews getViewAt(int position) {
-                bumble.add("FUCK");
-                bumble.add("You");
-                bumble.add("FUCK");
-                bumble.add("You");
-                bumble.add("FUCK");
-                bumble.add("You");
-                RemoteViews views = new RemoteViews(getPackageName(),R.layout.test);
+
+                RemoteViews views = new RemoteViews(getPackageName(),R.layout.list_item_quote);
 
                 views.setTextViewText(R.id.stock_symbol, bumble.get(position));
 
