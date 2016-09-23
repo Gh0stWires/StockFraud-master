@@ -1,17 +1,21 @@
 <resources>
-    <string name="app_name">Stock Hawk</string>
+    <string name="app_name" translatable="true">Stock Hawk</string>
 
-    <string name="action_example">Example action</string>
+    <string name="action_example" translatable="true">Example action</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_change_units">Change Units</string>
-    <string name="symbol_search">Symbol Search</string>
-    <string name="content_test">Search for a Stock Symbol</string>
-    <string name="input_hint">FB</string>
-    <string name="input_prefill"></string>
-    <string name="network_toast">Uh-oh! This app requires an internet connection</string>
-    <string name="invalid_toast">Stock doesn\'t exist</string>
-    <string name="title_activity_detail">DetailActivity</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="action_settings" translatable="true">Settings</string>
+    <string name="action_change_units" translatable="true">Change Units</string>
+    <string name="symbol_search" translatable="true">Symbol Search</string>
+    <string name="content_test" translatable="true">Search for a Stock Symbol</string>
+    <string name="input_hint" translatable="true">FB</string>
+    <string name="input_prefill" translatable="true"></string>
+    <string name="network_toast" translatable="true">Uh-oh! This app requires an internet connection</string>
+    <string name="invalid_toast" translatable="true">Stock doesn\'t exist</string>
+    <string name="title_activity_detail" translatable="true">DetailActivity</string>
+    <string name="appwidget_text" translatable="true">EXAMPLE</string>
+    <string name="add_widget" translatable="true">Add widget</string>
+    <string name="open_detailed_on_stock" translatable="true">Open Detailed On Stock</string>
+    <string name="add_stock" translatable="true">Add Stock</string>
+    <string name="chart_descriptor" translatable="true">Stock Graph</string>
+    <string name="price_time" translatable="true">Price Over Time</string>
 </resources>

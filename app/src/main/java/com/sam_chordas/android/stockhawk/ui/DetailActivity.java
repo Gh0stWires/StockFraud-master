@@ -156,7 +156,7 @@ public class DetailActivity extends Activity {
             LineChart chartView = (LineChart)findViewById(R.id.linechart);
             System.out.println(closeNums);
             System.out.println(dateNums);
-            LineDataSet closeSet = new LineDataSet(closeNums, "Price Over Time");
+            LineDataSet closeSet = new LineDataSet(closeNums, getString(R.string.price_time));
 
             closeSet.enableDashedLine(10f, 5f, 0f);
             closeSet.enableDashedHighlightLine(10f, 5f, 0f);
@@ -171,7 +171,11 @@ public class DetailActivity extends Activity {
 
             
             LineData data = new LineData(dateNums, closeSet);
+            //setContentView(chartView);
+
             chartView.setData(data);
+            chartView.setDescription(getString(R.string.chart_descriptor));
+            chartView.invalidate();
             System.out.println(closeSet);
 
         }

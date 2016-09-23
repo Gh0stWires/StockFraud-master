@@ -2,12 +2,7 @@ package com.sam_chordas.android.stockhawk.service;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
-import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
-import com.sam_chordas.android.stockhawk.R;
-
-import java.util.ArrayList;
 
 /**
  * Created by gh0st on 8/27/16.
@@ -20,8 +15,10 @@ public class StockRemoteService extends RemoteViewsService {
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 
 
-        return new RemoteViewsFactory() {
-            ArrayList<String> bumble = new ArrayList<>();
+        return new StockRemoteFactory(getApplicationContext());
+    }
+        /*() {
+            //ArrayList<String> bumble = new ArrayList<>();
 
             //Cursor stocks = bumble;
             @Override
@@ -83,6 +80,6 @@ public class StockRemoteService extends RemoteViewsService {
             }
         };
     }
-
+*/
 
 }

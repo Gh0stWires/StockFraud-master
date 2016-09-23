@@ -18,6 +18,10 @@ public class StockFraudWidget extends AppWidgetProvider {
     //ArrayList<String> price = new ArrayList<>();
 
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
