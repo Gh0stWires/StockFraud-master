@@ -120,7 +120,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                     //Log.d("Is it there", c.getColumnName(1));
                                     if (c.getCount() != 0) {
                                         Toast toast =
-                                                Toast.makeText(MyStocksActivity.this, "This stock is already saved!",
+                                                Toast.makeText(MyStocksActivity.this, R.string.stock_exists,
                                                         Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                         toast.show();
@@ -129,7 +129,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                         //I figure since most stock tickers aren't more than 5 characters long
                                         //people wont be able to add 2 stocks at once and this will prevent duplicates
                                         Toast toast =
-                                                Toast.makeText(MyStocksActivity.this, "Too many characters",
+                                                Toast.makeText(MyStocksActivity.this, R.string.char_error,
                                                         Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                         toast.show();
